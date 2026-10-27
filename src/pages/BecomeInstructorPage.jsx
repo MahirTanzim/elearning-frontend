@@ -72,6 +72,37 @@ export default function BecomeInstructorPage() {
   }
 
   const deleteQualification = (id) => run(() => api.delete(`/instructor-application/qualifications/${id}`))
+    const uploadDocument = (qualificationId, file) => {
+    if (!file) return
+    if (file.size > 5 * 1024 * 1024) {
+      setMessage({ ok: false, text: 'File is too large (max 5 MB).' })
+      return
+    }
+    const formData = new FormData()
+    formData.append('file', file)
+    return run(
+      () => api.post(`/instructor-application/qualifications/${qualificationId}/documents`, formData),
+      'Document uploaded.'
+    )
+  }
+
+  const deleteDocument = (documentId) => run(() => api.delete(`/instructor-application/documents/${documentId}`))
+
+  // A plain <a href> cannot send the Authorization header, so we fetch the file with
+  // axios (which does) and turn the response into a temporary download link.
+  const downloadDocument = async (doc) => {
+    try {
+      const res = await api.get(`/documents/${doc.id}`, { responseType: 'blob' })
+      const url = URL.createObjectURL(res.data)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = doc.fileName
+      a.click()
+      URL.revokeObjectURL(url)
+    } catch {
+      setMessage({ ok: false, text: 'Could not download the file.' })
+    }
+  }
 
   const saveLinks = () =>
     run(
@@ -132,11 +163,33 @@ export default function BecomeInstructorPage() {
       <h2>2. Qualifications</h2>
       <ul>
         {(app?.qualifications ?? []).map((q) => (
-          <li key={q.id}>
+                    <li key={q.id}>
             {q.type}: {q.title}, {q.institution}
             {q.fieldOfStudy ? ` (${q.fieldOfStudy})` : ''} {q.startYear ?? ''}-{q.endYear ?? ''}{' '}
             {q.verified && <b>[verified]</b>}{' '}
             {!qualsLocked && <button onClick={() => deleteQualification(q.id)}>Delete</button>}
+            <ul>
+              {q.documents.map((d) => (
+                <li key={d.id}>
+                  {d.fileName} ({Math.max(1, Math.round(d.sizeBytes / 1024))} KB){' '}
+                  <button onClick={() => downloadDocument(d)}>Download</button>{' '}
+                  {!qualsLocked && <button onClick={() => deleteDocument(d.id)}>Delete</button>}
+                </li>
+              ))}
+            </ul>
+            {!qualsLocked && q.documents.length < 3 && (
+              <div>
+                Proof document (PDF, PNG or JPG, max 5 MB):{' '}
+                <input
+                  type="file"
+                  accept=".pdf,.png,.jpg,.jpeg"
+                  onChange={(e) => {
+                    uploadDocument(q.id, e.target.files[0])
+                    e.target.value = ''
+                  }}
+                />
+              </div>
+            )}
           </li>
         ))}
       </ul>
