@@ -27,7 +27,9 @@ export default function App() {
         <Route path="/profile" element={<ProfilePage />} />
       </Route>
 
-     
+      <Route element={<ProtectedRoute roles={['ADMIN']} />}>
+        <Route path="/admin" element={<AdminPage />} />
+      </Route>
     </Routes>
 
   )
