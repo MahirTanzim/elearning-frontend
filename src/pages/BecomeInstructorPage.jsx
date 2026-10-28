@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../api/client'
+import { useAuth } from '../auth/AuthContext'
 
 const QUAL_TYPES = ['DEGREE', 'CERTIFICATION', 'EXPERIENCE']
 const PLATFORMS = ['LINKEDIN', 'GITHUB', 'FACEBOOK', 'INSTAGRAM', 'PINTEREST', 'X', 'YOUTUBE', 'WEBSITE', 'OTHER']
@@ -16,6 +17,16 @@ export default function BecomeInstructorPage() {
   const [app, setApp] = useState(null)
   const [loading, setLoading] = useState(true)
   const [message, setMessage] = useState(null)
+  const { user, refreshSession } = useAuth()
+  const activate = async () => {
+    try {
+      await refreshSession()
+      setMessage({ ok: true, text: 'Instructor access activated.' })
+    }
+    catch {
+      setMessage({ ok: false, text: "Could not refreash your session. Please Login again." })
+    }
+  }
 
   const [headline, setHeadline] = useState('')
   const [bio, setBio] = useState('')
@@ -72,7 +83,7 @@ export default function BecomeInstructorPage() {
   }
 
   const deleteQualification = (id) => run(() => api.delete(`/instructor-application/qualifications/${id}`))
-    const uploadDocument = (qualificationId, file) => {
+  const uploadDocument = (qualificationId, file) => {
     if (!file) return
     if (file.size > 5 * 1024 * 1024) {
       setMessage({ ok: false, text: 'File is too large (max 5 MB).' })
@@ -139,7 +150,13 @@ export default function BecomeInstructorPage() {
         </p>
       )}
       {status === 'APPROVED' && (
-        <p>You are approved. Log out and log in again to get your instructor access.</p>
+        <p>
+          You are approved!{' '}
+          {user && !user.roles.includes('INSTRUCTOR') && (
+            <buton onClick= {activate}>Activate instructo access</buton>
+          )}
+          {user && user.roles.includes('INSTRUCTOR') && <b>Your instructor access is active</b>}
+        </p>
       )}
       {status === 'SUSPENDED' && <p style={{ color: 'red' }}>Your instructor account is suspended.</p>}
 
@@ -163,7 +180,7 @@ export default function BecomeInstructorPage() {
       <h2>2. Qualifications</h2>
       <ul>
         {(app?.qualifications ?? []).map((q) => (
-                    <li key={q.id}>
+          <li key={q.id}>
             {q.type}: {q.title}, {q.institution}
             {q.fieldOfStudy ? ` (${q.fieldOfStudy})` : ''} {q.startYear ?? ''}-{q.endYear ?? ''}{' '}
             {q.verified && <b>[verified]</b>}{' '}
