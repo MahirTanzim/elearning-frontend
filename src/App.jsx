@@ -11,7 +11,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage'
 import VerifyEmailPage from './pages/VerifyEmailPage'
 import BecomeInstructorPage from './pages/BecomeInstructorPage'
 import AdminApplicationDetailPage from './pages/AdminApplicationDetailPage'
-import AdminApplicationPage from './pages/AdminApplicationsPage'
+import AdminApplicationsPage from './pages/AdminApplicationsPage'
 
 
 export default function App() {

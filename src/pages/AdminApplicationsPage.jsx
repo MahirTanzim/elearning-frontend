@@ -2,23 +2,23 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../api/client'
 
+const STATUSES = ['PENDING', 'APPROVED', 'REJECTED', 'SUSPENDED']
 
-const status = ['PENDING', 'APPROVED', 'REJECTED', 'SUSPENDED']
+export default function AdminApplicationsPage() {
+  const [status, setStatus] = useState('PENDING')
+  const [items, setItems] = useState(null)
+  const [error, setError] = useState('')
 
-export default function AdminApplicationPage() {
-    const [status, setStatus] = useState('PENDING')
-    const [items, setItems] = useState(null)
-    const [error, setError] = useState('')
+  useEffect(() => {
+    setItems(null)
+    setError('')
+    api
+      .get('/admin/instructor-applications', { params: { status } })
+      .then((res) => setItems(res.data))
+      .catch(() => setError('Could not load applications.'))
+  }, [status])
 
-    useEffect(() => {
-        setItems(null)
-        setError('')
-        api
-            .get('/admin/instructor-applications', { params: { status } })
-            .then((res) => setItems(res.data))
-            .catch(() => setError('Could not load applications.'))
-    }, [status])
-    return (
+  return (
     <div>
       <h1>Instructor applications</h1>
       <p>
@@ -64,4 +64,3 @@ export default function AdminApplicationPage() {
     </div>
   )
 }
-

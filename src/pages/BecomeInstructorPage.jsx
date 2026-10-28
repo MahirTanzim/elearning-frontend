@@ -24,7 +24,7 @@ export default function BecomeInstructorPage() {
       setMessage({ ok: true, text: 'Instructor access activated.' })
     }
     catch {
-      setMessage({ ok: false, text: "Could not refreash your session. Please Login again." })
+      setMessage({ ok: false, text: 'Could not refresh your session. Please log in again.' })
     }
   }
 
@@ -153,9 +153,9 @@ export default function BecomeInstructorPage() {
         <p>
           You are approved!{' '}
           {user && !user.roles.includes('INSTRUCTOR') && (
-            <buton onClick= {activate}>Activate instructo access</buton>
+            <button onClick={activate}>Activate instructor access</button>
           )}
-          {user && user.roles.includes('INSTRUCTOR') && <b>Your instructor access is active</b>}
+          {user && user.roles.includes('INSTRUCTOR') && <b>Your instructor access is active.</b>}
         </p>
       )}
       {status === 'SUSPENDED' && <p style={{ color: 'red' }}>Your instructor account is suspended.</p>}

@@ -57,14 +57,14 @@ export function AuthProvider({ children }) {
         setLoading(true)
         await loadUser()
     }
-      // Gets a fresh access token, which includes any roles granted since login
-  const refreshSession = async () => {
-    const res = await publicApi.post('/auth/refresh', { refreshToken: tokenStore.getRefresh() })
-    tokenStore.set(res.data.accessToken, res.data.refreshToken)
-    setUser(res.data.user)
-  }
-  const value = { user, loading, login, register, logout, completeOAuthLogin, reloadUser: loadUser, refreshSession }
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+    // Gets a fresh access token, which includes any roles granted since login
+    const refreshSession = async () => {
+        const res = await publicApi.post('/auth/refresh', { refreshToken: tokenStore.getRefresh() })
+        tokenStore.set(res.data.accessToken, res.data.refreshToken)
+        setUser(res.data.user)
+    }
+  const value = { user, loading, login, register, logout, completeOAuthLogin, reloadUser: loadUser, refreshSession }    
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
 export const useAuth = () => useContext(AuthContext)
