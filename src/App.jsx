@@ -10,6 +10,8 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import VerifyEmailPage from './pages/VerifyEmailPage'
 import BecomeInstructorPage from './pages/BecomeInstructorPage'
+import AdminApplicationDetailPage from './pages/AdminApplicationDetailPage'
+import AdminApplicationPage from './pages/AdminApplicationsPage'
 
 
 export default function App() {
@@ -29,6 +31,12 @@ export default function App() {
 
       <Route element={<ProtectedRoute roles={['ADMIN']} />}>
         <Route path="/admin" element={<AdminPage />} />
+      </Route>
+
+      <Route element={<ProtectedRoute roles={['ADMIN']} />}>
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/admin/instructor-applications" element={<AdminApplicationsPage />} />
+        <Route path="/admin/instructor-applications/:id" element={<AdminApplicationDetailPage />} />
       </Route>
     </Routes>
 
