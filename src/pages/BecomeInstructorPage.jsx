@@ -155,6 +155,7 @@ export default function BecomeInstructorPage() {
           {user && !user.roles.includes('INSTRUCTOR') && (
             <button onClick={activate}>Activate instructor access</button>
           )}
+          <Link to={`/instructors/${app.id}`}>View my public page</Link>
           {user && user.roles.includes('INSTRUCTOR') && <b>Your instructor access is active.</b>}
         </p>
       )}

@@ -19,6 +19,9 @@ export default function HomePage() {
   return (
     <div>
       <h1>E-Learning Platform</h1>
+      <p>
+        <Link to="/instructors">Browse instructors</Link>
+      </p>
       {user ? (
         <>
           {!user.emailVerified && (
@@ -39,7 +42,7 @@ export default function HomePage() {
                 <Link to="/admin">Admin</Link>
               </>
             )}
-              {!user.roles.includes('INSTRUCTOR') && (
+            {!user.roles.includes('INSTRUCTOR') && (
               <>
                 {' | '}
                 <Link to="/become-instructor">Become an instructor</Link>

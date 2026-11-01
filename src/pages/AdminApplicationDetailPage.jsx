@@ -81,6 +81,7 @@ export default function AdminApplicationDetailPage() {
       {app.rejectionReason && <p>Rejection reason: {app.rejectionReason}</p>}
 
       <h2>Applicant</h2>
+      <Avatar name={app.user.fullName} url={app.user.avatarUrl} size={80} />
       <p>
         {app.user.fullName} ({app.user.email}) {app.user.emailVerified ? '[email verified]' : '[email NOT verified]'}
       </p>

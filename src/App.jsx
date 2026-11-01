@@ -12,6 +12,9 @@ import VerifyEmailPage from './pages/VerifyEmailPage'
 import BecomeInstructorPage from './pages/BecomeInstructorPage'
 import AdminApplicationDetailPage from './pages/AdminApplicationDetailPage'
 import AdminApplicationsPage from './pages/AdminApplicationsPage'
+import PublicInstructorPage from './pages/PublicInstructorPage'
+import PublicInstructorsPage from './pages/PublicInstructorsPage'
+
 
 
 export default function App() {
@@ -19,6 +22,8 @@ export default function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/instructors" element={<PublicInstructorsPage />} />
+      <Route path="/instructors/:id" element={<PublicInstructorPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/oauth2/success" element={<OAuthSuccessPage />} />
       <Route path="/verify-email" element={<VerifyEmailPage />} />
