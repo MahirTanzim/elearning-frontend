@@ -48,6 +48,12 @@ export default function HomePage() {
                 <Link to="/become-instructor">Become an instructor</Link>
               </>
             )}
+            {user.roles.includes('INSTRUCTOR') && (
+              <>
+                {' | '}
+                <Link to="/instructor/courses">My courses</Link>
+              </>
+            )}
           </p>
           <button onClick={logout}>Logout</button>
         </>

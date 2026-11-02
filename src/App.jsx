@@ -14,6 +14,9 @@ import AdminApplicationDetailPage from './pages/AdminApplicationDetailPage'
 import AdminApplicationsPage from './pages/AdminApplicationsPage'
 import PublicInstructorPage from './pages/PublicInstructorPage'
 import PublicInstructorsPage from './pages/PublicInstructorsPage'
+import CourseEditorPage from './pages/CourseEditorPage'
+import InstructorCoursesPage from './pages/InstructorCoursesPage'
+
 
 
 
@@ -42,6 +45,11 @@ export default function App() {
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/admin/instructor-applications" element={<AdminApplicationsPage />} />
         <Route path="/admin/instructor-applications/:id" element={<AdminApplicationDetailPage />} />
+      </Route>
+      <Route element={<ProtectedRoute roles={['INSTRUCTOR']} />}>
+        <Route path="/instructor/courses" element={<InstructorCoursesPage />} />
+        <Route path="/instructor/courses/new" element={<CourseEditorPage key="new" />} />
+        <Route path="/instructor/courses/:id" element={<CourseEditorPage key="edit" />} />
       </Route>
     </Routes>
 
