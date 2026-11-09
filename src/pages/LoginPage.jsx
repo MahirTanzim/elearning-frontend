@@ -54,7 +54,7 @@ export default function LoginPage() {
             </form>
 
             <p>or</p>
-            <a href="http://localhost:8080/oauth2/authorization/google">Continue with Google</a>
+            <a href="http://localhost:9090/oauth2/authorization/google">Continue with Google</a>
             <p>
                 <Link to="/forgot-password">Forgot password?</Link>
             </p>
