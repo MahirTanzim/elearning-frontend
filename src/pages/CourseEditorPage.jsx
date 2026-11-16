@@ -28,7 +28,7 @@ function movedIds(list, index, delta) {
   const target = index + delta
   if (target < 0 || target >= list.length) return null
   const ids = list.map((x) => x.id)
-  ;[ids[index], ids[target]] = [ids[target], ids[index]]
+    ;[ids[index], ids[target]] = [ids[target], ids[index]]
   return ids
 }
 
@@ -184,7 +184,7 @@ export default function CourseEditorPage() {
   const [newSection, setNewSection] = useState('')
 
   useEffect(() => {
-    publicApi.get('/public/categories').then((res) => setCategories(res.data)).catch(() => {})
+    publicApi.get('/public/categories').then((res) => setCategories(res.data)).catch(() => { })
   }, [])
 
   useEffect(() => {
