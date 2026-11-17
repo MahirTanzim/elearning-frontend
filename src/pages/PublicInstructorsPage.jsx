@@ -25,19 +25,22 @@ export default function PublicInstructorsPage() {
       {!items && !error && <p>Loading...</p>}
       {items && items.length === 0 && <p>No instructors yet.</p>}
 
-      {items &&
-        items.map((i) => (
-          <div key={i.id} style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 16 }}>
-            <Avatar name={i.fullName} url={i.avatarUrl} size={64} />
-            <div>
-              <Link to={`/instructors/${i.id}`}>
-                <b>{i.fullName}</b>
-              </Link>
-              <div>{i.headline}</div>
-              <div>{i.expertise}</div>
-            </div>
-          </div>
-        ))}
+      {items && items.length > 0 && (
+        <div className="instructor-list">
+          {items.map((i) => (
+            <article key={i.id} className="instructor-card">
+              <Avatar name={i.fullName} url={i.avatarUrl} size={64} />
+              <div className="instructor-card__details">
+                <Link className="instructor-card__name" to={`/instructors/${i.id}`}>
+                  {i.fullName}
+                </Link>
+                <div className="instructor-card__meta">{i.headline}</div>
+                <div className="instructor-card__meta">{i.expertise}</div>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

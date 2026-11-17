@@ -17,11 +17,13 @@ export default function HomePage() {
   }
 
   return (
-    <div>
-      <h1>E-Learning Platform</h1>
-      <p>
-        <Link to="/instructors">Browse instructors</Link>
-      </p>
+    <div className="home-page">
+      <section className="home-hero">
+        <p className="home-hero__eyebrow">A better way to learn</p>
+        <h1>Learn from people who love to teach.</h1>
+        <p className="home-hero__intro">
+          Find experienced instructors and take the next step toward your goals.
+        </p>
       {user ? (
         <>
           {!user.emailVerified && (
@@ -34,34 +36,35 @@ export default function HomePage() {
           <p>
             Welcome, {user.fullName} ({user.roles.join(', ')})
           </p>
-          <p>
+          <div className="home-actions">
+            <Link className="home-primary-link" to="/instructors">Browse instructors</Link>
             <Link to="/profile">My profile</Link>
             {user.roles.includes('ADMIN') && (
               <>
-                {' | '}
                 <Link to="/admin">Admin</Link>
               </>
             )}
             {!user.roles.includes('INSTRUCTOR') && (
               <>
-                {' | '}
                 <Link to="/become-instructor">Become an instructor</Link>
               </>
             )}
             {user.roles.includes('INSTRUCTOR') && (
               <>
-                {' | '}
                 <Link to="/instructor/courses">My courses</Link>
               </>
             )}
-          </p>
-          <button onClick={logout}>Logout</button>
+          </div>
+          <p><button onClick={logout}>Log out</button></p>
         </>
       ) : (
-        <p>
-          <Link to="/login">Login</Link> | <Link to="/register">Register</Link>
-        </p>
+        <div className="home-actions">
+          <Link className="home-primary-link" to="/instructors">Browse instructors</Link>
+          <Link to="/login">Log in</Link>
+          <Link to="/register">Create an account</Link>
+        </div>
       )}
+      </section>
     </div>
   )
 }
